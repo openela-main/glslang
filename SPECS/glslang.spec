@@ -1,14 +1,13 @@
-%global sdkver 1.3.239.0
+%global sdkver 1.3.250.1
 
 Name:           glslang
 Version:        11.9.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        OpenGL and OpenGL ES shader front end and validator
 
 License:        BSD and GPLv3+ and ASL 2.0
 URL:            https://github.com/KhronosGroup/%{name}
 Source0:        %url/archive/sdk-%{sdkver}.tar.gz#/%{name}-sdk-%{sdkver}.tar.gz
-Patch1:         glslang-default-resource-limits_staticlib.patch
 # Patch to build against system spirv-tools (rebased locally)
 #Patch3:         https://patch-diff.githubusercontent.com/raw/KhronosGroup/glslang/pull/1722.patch#/0001-pkg-config-compatibility.patch
 Patch3:         0001-pkg-config-compatibility.patch
@@ -44,9 +43,6 @@ find . -name '*.h' -or -name '*.cpp' -or -name '*.hpp'| xargs chmod a-x
 %install
 %{cmake_install}
 
-# Install libglslang-default-resource-limits.a
-install -pm 0644 %{_vpath_builddir}/StandAlone/libglslang-default-resource-limits.a %{buildroot}%{_libdir}/
-
 # we don't want them in here
 rm -rf %{buildroot}%{_includedir}/SPIRV
 
@@ -78,6 +74,9 @@ popd
 %{_libdir}/cmake/*
 
 %changelog
+* Fri Jul 07 2023 Dave Airlie <airlied@redhat.com> - 11.9.0-5
+- Latest snapshot used in 1.3.250.1 sdk
+
 * Wed Feb 15 2023 Dave Airlie <airlied@redhat.com> - 11.9.0-4
 - Latest snapshot used in 1.3.239 sdk
 
