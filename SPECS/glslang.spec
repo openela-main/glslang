@@ -1,13 +1,13 @@
-%global sdkver 1.3.250.1
+%global sdkver 1.3.268.0
 
 Name:           glslang
-Version:        11.9.0
-Release:        5%{?dist}
+Version:        13.1.1
+Release:        1%{?dist}
 Summary:        OpenGL and OpenGL ES shader front end and validator
 
 License:        BSD and GPLv3+ and ASL 2.0
 URL:            https://github.com/KhronosGroup/%{name}
-Source0:        %url/archive/sdk-%{sdkver}.tar.gz#/%{name}-sdk-%{sdkver}.tar.gz
+Source0:        %url/archive/vulkan-sdk-%{sdkver}.tar.gz#/%{name}-sdk-%{sdkver}.tar.gz
 # Patch to build against system spirv-tools (rebased locally)
 #Patch3:         https://patch-diff.githubusercontent.com/raw/KhronosGroup/glslang/pull/1722.patch#/0001-pkg-config-compatibility.patch
 Patch3:         0001-pkg-config-compatibility.patch
@@ -32,7 +32,7 @@ ES and OpenGL shading languages. It implements a strict
 interpretation of the specifications for these languages.
 
 %prep
-%autosetup -p1 -n %{name}-sdk-%{sdkver}
+%autosetup -p1 -n %{name}-vulkan-sdk-%{sdkver}
 # Fix rpmlint warning on debuginfo
 find . -name '*.h' -or -name '*.cpp' -or -name '*.hpp'| xargs chmod a-x
 
@@ -55,6 +55,7 @@ popd
 
 %files
 %doc README.md README-spirv-remap.txt
+%{_bindir}/glslang
 %{_bindir}/glslangValidator
 %{_bindir}/spirv-remap
 
@@ -74,6 +75,9 @@ popd
 %{_libdir}/cmake/*
 
 %changelog
+* Wed Jan 17 2024 José Expósito <jexposit@redhat.com> - 13.1.1-1
+- Update to 1.3.268.0 SDK
+
 * Fri Jul 07 2023 Dave Airlie <airlied@redhat.com> - 11.9.0-5
 - Latest snapshot used in 1.3.250.1 sdk
 
