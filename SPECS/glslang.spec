@@ -1,11 +1,11 @@
-%global sdkver 1.3.268.0
+%global sdkver 1.3.283.0
 
 Name:           glslang
-Version:        13.1.1
-Release:        1%{?dist}
+Version:        14.2.0
+Release:        3%{?dist}
 Summary:        OpenGL and OpenGL ES shader front end and validator
 
-License:        BSD and GPLv3+ and ASL 2.0
+License:        BSD-2-Clause AND BSD-3-Clause AND GPL-3.0-or-later AND Apache-2.0
 URL:            https://github.com/KhronosGroup/%{name}
 Source0:        %url/archive/vulkan-sdk-%{sdkver}.tar.gz#/%{name}-sdk-%{sdkver}.tar.gz
 # Patch to build against system spirv-tools (rebased locally)
@@ -61,8 +61,6 @@ popd
 
 %files devel
 %{_includedir}/glslang/
-%{_libdir}/libHLSL.a
-%{_libdir}/libOGLCompiler.a
 %{_libdir}/libOSDependent.a
 %{_libdir}/libSPIRV.a
 %{_libdir}/libSPVRemapper.a
@@ -75,6 +73,15 @@ popd
 %{_libdir}/cmake/*
 
 %changelog
+* Thu May 30 2024 José Expósito <jexposit@redhat.com> - 14.2.0-3
+- Fix license identifiers
+
+* Thu May 30 2024 José Expósito <jexposit@redhat.com> - 14.2.0-2
+- Update license identifiers
+
+* Tue May 28 2024 José Expósito <jexposit@redhat.com> - 14.2.0-1
+- Update to 1.3.283.0 SDK
+
 * Wed Jan 17 2024 José Expósito <jexposit@redhat.com> - 13.1.1-1
 - Update to 1.3.268.0 SDK
 
