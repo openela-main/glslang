@@ -1,8 +1,8 @@
-%global sdkver 1.3.283.0
+%global sdkver 1.4.304.0
 
 Name:           glslang
-Version:        14.2.0
-Release:        3%{?dist}
+Version:        15.1.0
+Release:        1%{?dist}
 Summary:        OpenGL and OpenGL ES shader front end and validator
 
 License:        BSD-2-Clause AND BSD-3-Clause AND GPL-3.0-or-later AND Apache-2.0
@@ -73,6 +73,9 @@ popd
 %{_libdir}/cmake/*
 
 %changelog
+* Mon Jan 20 2025 José Expósito <jexposit@redhat.com> - 15.1.0-1
+- Update to 1.4.304.0 SDK
+
 * Thu May 30 2024 José Expósito <jexposit@redhat.com> - 14.2.0-3
 - Fix license identifiers
 
