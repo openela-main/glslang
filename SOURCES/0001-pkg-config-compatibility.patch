@@ -1,4 +1,4 @@
-From 011ff910c1836508d323cbe1c55cf0359eb69705 Mon Sep 17 00:00:00 2001
+From 6341a4feb4ed81aef3c3fcf0cb901393c41a5f5a Mon Sep 17 00:00:00 2001
 From: Anusha Srivatsa <asrivats@redhat.com>
 Date: Wed, 26 Mar 2025 16:15:29 -0400
 Subject: [PATCH] Bring in the changes from upstream
@@ -18,10 +18,10 @@ Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
  create mode 100644 glslang/glslang.pc.cmake.in
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 7e78c0b5..798b3b90 100644
+index da2fa6d5..6085d282 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -122,6 +122,13 @@ endif()
+@@ -120,6 +120,13 @@ endif()
  
  option(ENABLE_PCH "Enables Precompiled header" ON)
  
@@ -35,7 +35,7 @@ index 7e78c0b5..798b3b90 100644
  if(ENABLE_SPIRV)
      add_compile_definitions(ENABLE_SPIRV)
  endif()
-@@ -279,27 +286,7 @@ if(BUILD_EXTERNAL AND IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/External)
+@@ -277,27 +284,7 @@ if(BUILD_EXTERNAL AND IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/External)
      add_subdirectory(External)
  endif()
  
@@ -64,7 +64,7 @@ index 7e78c0b5..798b3b90 100644
      message(STATUS "optimizer enabled")
      add_compile_definitions(ENABLE_OPT=1)
  else()
-@@ -358,9 +345,6 @@ if (GLSLANG_ENABLE_INSTALL)
+@@ -353,9 +340,6 @@ if (GLSLANG_ENABLE_INSTALL)
      file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/glslang-config.cmake.in" [=[
          @PACKAGE_INIT@
          include(CMakeFindDependencyMacro)
@@ -90,21 +90,18 @@ index 826b5c59..4169c6ff 100644
 -endif()
  
 diff --git a/SPIRV/CMakeLists.txt b/SPIRV/CMakeLists.txt
-index 91469d4f..b0ac8268 100644
+index 9bac0005..964cff2e 100644
 --- a/SPIRV/CMakeLists.txt
 +++ b/SPIRV/CMakeLists.txt
-@@ -94,6 +94,9 @@ target_include_directories(SPIRV PUBLIC
+@@ -85,14 +85,24 @@ target_include_directories(SPIRV PUBLIC
      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
  glslang_only_export_explicit_symbols(SPIRV)
  
 +set(SPIRV_NAME spirv)
 +set(SPIRV_VERSION 1.5.5)
 +
- if (ENABLE_SPVREMAPPER)
-     add_library(SPVRemapper ${LIB_TYPE} ${SPVREMAP_SOURCES} ${SPVREMAP_HEADERS})
-     add_library(glslang::SPVRemapper ALIAS SPVRemapper)
-@@ -112,10 +115,17 @@ if(WIN32 AND BUILD_SHARED_LIBS)
-     endif()
+ if(WIN32 AND BUILD_SHARED_LIBS)
+     set_target_properties(SPIRV PROPERTIES PREFIX "")
  endif()
  
 +target_include_directories(SPIRV PUBLIC ${SPIRV_TOOLS_INCLUDE_DIRS})
@@ -124,8 +121,8 @@ index 91469d4f..b0ac8268 100644
  else()
      target_link_libraries(SPIRV INTERFACE glslang)
  endif()
-@@ -132,5 +142,9 @@ if(GLSLANG_ENABLE_INSTALL)
- 
+@@ -104,5 +114,9 @@ endif()
+ if(GLSLANG_ENABLE_INSTALL)
      install(TARGETS SPIRV EXPORT glslang-targets)
  
 +    # spirv.pc Configuration
@@ -166,7 +163,7 @@ index 00000000..dfcad940
 +    Cflags: -I${includedir}
 \ No newline at end of file
 diff --git a/StandAlone/CMakeLists.txt b/StandAlone/CMakeLists.txt
-index 18a24ce3..4e9e910f 100644
+index e7707524..c8584c06 100644
 --- a/StandAlone/CMakeLists.txt
 +++ b/StandAlone/CMakeLists.txt
 @@ -62,6 +62,14 @@ set(LIBRARIES
@@ -191,13 +188,13 @@ index 18a24ce3..4e9e910f 100644
 -target_include_directories(glslang-standalone PUBLIC
 -    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../External>)
  
- if(ENABLE_SPIRV)
-     if(ENABLE_SPVREMAPPER)
+ if(WIN32)
+     source_group("Source" FILES ${SOURCES})
 diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
-index eb1dc68e..9262bc8c 100644
+index 1bf4c1f2..9733ceb5 100644
 --- a/glslang/CMakeLists.txt
 +++ b/glslang/CMakeLists.txt
-@@ -254,6 +254,8 @@ if(GLSLANG_ENABLE_INSTALL)
+@@ -255,6 +255,8 @@ if(GLSLANG_ENABLE_INSTALL)
      if(NOT BUILD_SHARED_LIBS)
          install(TARGETS MachineIndependent EXPORT glslang-targets)
          install(TARGETS GenericCodeGen EXPORT glslang-targets)
@@ -221,9 +218,9 @@ index 00000000..594db293
 +    Description: OpenGL and OpenGL ES shader front end and validator
 +    Requires:
 +    Version: @VERSION@
-+    Libs: -L${libdir} -lglslang -lOSDependent -lSPVRemapper
++    Libs: -L${libdir} -lglslang -lOSDependent
 +    Cflags: -I${includedir}
 \ No newline at end of file
 -- 
-2.47.1
+2.51.1
 
